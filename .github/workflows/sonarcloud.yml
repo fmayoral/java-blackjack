@@ -1,0 +1,28 @@
+name: SonarCloud analysis
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  Analysis:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Setup Java 17
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+
+      # Checkout your repo
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
+      # Build your project and run analysis
+      - name: Run Maven and SonarCloud analysis
+        run: mvn clean verify sonar:sonar -Dsonar.projectKey=fmayoral_java-blackjack -Dsonar.organization=fmayoral -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}

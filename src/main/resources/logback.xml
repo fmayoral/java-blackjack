@@ -1,0 +1,15 @@
+<configuration>
+  <!-- Define appenders -->
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%date [%thread] %yellow(%-5level) %cyan(%logger{15}) - %msg %n</pattern>
+    </encoder>
+  </appender>
+
+  <!-- Define the global default logging level -->
+  <root level="info">
+    <appender-ref ref="STDOUT"/>
+  </root>
+
+  <logger name="uk.fmayoral.blackjack" level="debug"/>
+</configuration>

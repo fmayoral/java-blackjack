@@ -1,0 +1,50 @@
+image: maven:latest
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+
+cache:
+  key: "${CI_JOB_NAME}"
+  paths:
+    - .m2/repository/
+    - target/
+    - .sonar/cache
+
+build:
+  stage: build
+  script:
+    - mvn compile
+
+
+test-sonar:
+  stage: test
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+  script:
+    - mvn verify sonar:sonar -Dsonar.projectKey=sonarqube-blackjack-example
+  only:
+    - main
+
+test-branch:
+  stage: test
+  script:
+    - mvn verify
+  artifacts:
+    paths:
+      - target/site/jacoco/jacoco.xml
+  only:
+    - branches
+
+coverage:
+  stage: deploy
+  image: registry.gitlab.com/haynes/jacoco2cobertura:1.0.9
+  script:
+    # convert report from jacoco to cobertura, using relative project path
+    - python /opt/cover2cover.py target/site/jacoco/jacoco.xml $CI_PROJECT_DIR/src/main/java/ > target/site/cobertura.xml
+  needs: [ "test-sonar" ]
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: target/site/cobertura.xml
