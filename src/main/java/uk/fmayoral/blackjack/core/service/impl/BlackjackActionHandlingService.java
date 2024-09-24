@@ -43,6 +43,7 @@ public class BlackjackActionHandlingService implements ActionHandlingService {
     actionHandlers.put(ActionType.HIT, hitHandler);
     actionHandlers.put(ActionType.STAND, standHandler);
   }
+
   @Override
   public Game performAction(String gameId, PlayerAction playerAction) {
     final BlackJackGame game = gameRepository.findById(gameId)
@@ -55,6 +56,7 @@ public class BlackjackActionHandlingService implements ActionHandlingService {
 
     return Optional.ofNullable(actionHandlers.get(playerAction.getAction()))
         .map(strategy -> strategy.handleAction(game))
+        .map(gameRepository::save)
         .map(this::mapGame)
         .orElseThrow(() -> new IllegalStateException("Unknown action: " + playerAction));
   }

@@ -23,11 +23,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class BlackjackActionHandlingServiceTest {
@@ -78,7 +74,8 @@ class BlackjackActionHandlingServiceTest {
   void performAction_GameFinished(GameStatus status) {
     BlackJackGame blackJackGame = BlackJackGame.builder()
         .id(GAME_ID)
-        .status(status).build();
+        .status(status)
+        .build();
 
     PlayerAction playerAction = new PlayerAction(ActionType.HIT);
 
@@ -92,7 +89,8 @@ class BlackjackActionHandlingServiceTest {
   void performAction_UnknownAction() {
     BlackJackGame blackJackGame = BlackJackGame.builder()
         .id(GAME_ID)
-        .status(GameStatus.IN_PROGRESS).build();
+        .status(GameStatus.IN_PROGRESS)
+        .build();
 
     PlayerAction playerAction = new PlayerAction(null);
 
@@ -106,8 +104,10 @@ class BlackjackActionHandlingServiceTest {
   void performAction_SuccessHit() {
     BlackJackGame blackJackGame = BlackJackGame.builder()
         .id(GAME_ID)
-        .status(GameStatus.IN_PROGRESS).build();
+        .status(GameStatus.IN_PROGRESS)
+        .build();
     when(gameRepository.findById(GAME_ID)).thenReturn(Optional.of(blackJackGame));
+    when(gameRepository.save(any(BlackJackGame.class))).thenReturn(blackJackGame);
     when(hitHandler.handleAction(blackJackGame)).thenReturn(blackJackGame);
     when(gameMapper.mapInitialGame(blackJackGame)).thenReturn(Game.builder().build());
 
@@ -116,6 +116,7 @@ class BlackjackActionHandlingServiceTest {
     verify(hitHandler, times(1)).handleAction(any());
     verify(standHandler, never()).handleAction(any());
     verify(gameMapper).mapInitialGame(blackJackGame);
+    verify(gameRepository).save(any(BlackJackGame.class));
   }
 
   @ParameterizedTest
@@ -133,6 +134,7 @@ class BlackjackActionHandlingServiceTest {
         .build();
 
     when(gameRepository.findById(GAME_ID)).thenReturn(Optional.of(blackJackGame));
+    when(gameRepository.save(any(BlackJackGame.class))).thenReturn(blackJackGameFinished);
     when(standHandler.handleAction(blackJackGame)).thenReturn(blackJackGameFinished);
     when(gameMapper.map(blackJackGameFinished)).thenReturn(Game.builder().build());
 
@@ -143,5 +145,6 @@ class BlackjackActionHandlingServiceTest {
     verify(hitHandler, never()).handleAction(any());
     verify(gameMapper, never()).mapInitialGame(blackJackGameFinished);
     verify(gameMapper).map(blackJackGameFinished);
+    verify(gameRepository).save(any(BlackJackGame.class));
   }
 }
