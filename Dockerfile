@@ -1,3 +1,4 @@
+# BUILD
 # Use the official maven/Java 11 image as the base image
 FROM maven:3.6.3-openjdk-11 AS builder
 
@@ -10,8 +11,12 @@ COPY . .
 # Build the project
 RUN mvn clean install
 
+# RUN
 # Use OpenJDK 11 image to run the built jar
 FROM openjdk:11-jre-slim
+
+# Download the HyperDX agent directly
+ADD "https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar" hyperdx-agent.jar
 
 # Copy the built jar from the builder image to this image
 COPY --from=builder /app/target/blackjack-service-1.0-SNAPSHOT.jar app.jar
@@ -20,4 +25,4 @@ COPY --from=builder /app/target/blackjack-service-1.0-SNAPSHOT.jar app.jar
 EXPOSE 8080
 
 # The command to run the application
-CMD ["java", "-jar", "app.jar"]
+CMD ["java", "-javaagent:hyperdx-agent.jar", "-jar", "app.jar"]

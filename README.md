@@ -1,9 +1,3 @@
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=fmayoral_java-blackjack&metric=coverage)](https://sonarcloud.io/summary/new_code?id=fmayoral_java-blackjack)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=fmayoral_java-blackjack&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=fmayoral_java-blackjack)
-[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=fmayoral_java-blackjack&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=fmayoral_java-blackjack)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=fmayoral_java-blackjack&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=fmayoral_java-blackjack)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=fmayoral_java-blackjack&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=fmayoral_java-blackjack)
-
 # Blackjack Game
 
 ## Table of Contents
@@ -39,7 +33,7 @@ It is not particularly remarkable, but it is a clean cut of a small-medium servi
 1. Clone this repository:
 
 ```
-git clone https://github.com/fmayoral/java-blackjack.git
+git clone https://gitlab.com/saggezza-internal-software/tech-excellence/blackjack-service.git
 ```
 
 2. Navigate into the local repository directory and run:
@@ -83,21 +77,28 @@ mvn spring-boot:run -Dspring-boot.run.mainClass=uk.fmayoral.blackjack.Main
 
 ## Tech Stack
 
+### Testing
+- **JUnit 5**: Unit testing framework.
+- **Mockito**: Mocking framework for isolated testing.
+- **JaCoCo**: Code coverage library.
 
-**Testing**
-- JUnit 5
-- Mockito
-- JaCoCo
+### Database
+- **MongoDB**: NoSQL database.
 
-**Database**: MongoDB
+### Frameworks
+- **Spring Boot Web**: Framework for creating web applications.
 
-**Frameworks**: Spring boot web
+### Utilities
+- **Lombok**: Java library that automatically plugs into your editor and build tools, spicing up your java.
 
-**Utilities**: Lombok
+### Static Code Analysis
+- **SonarQube**: Continuous inspection of code quality.
 
-**Static code analyisis**: Sonarqube
+### Containerization
+- **Docker**: Platform for developing, shipping, and running applications.
 
-**Container**: Docker
+### Application Performance Monitoring (APM)
+- **OpenTelemetry**: Provides observability through tracing, metrics, and logs to monitor and troubleshoot the application's performance.
 
 ---
 
@@ -112,7 +113,7 @@ A few documents were created to explain this codebase, different patterns and im
   * [Strategy and Command](./docs/patterns/Strategy-and-Command.md)
   * [Strategy](./docs/patterns/Strategy-classic.md)
 * Principles explained
-    * [SOLID](./docs/principles/SOLID.md)
+  * [SOLID](./docs/principles/SOLID.md)
 * Principles implementation highlights
   * [DRY-SRP](./docs/principles/DRY-SRP.md)
   * [SRP-OCP-DIP](./docs/principles/SRP-OCP-DIP.md)
