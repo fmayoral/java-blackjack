@@ -1,5 +1,6 @@
 package uk.fmayoral.blackjack.core.service.impl;
 
+import io.opentelemetry.instrumentation.annotations.WithSpan;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +39,7 @@ public class BlackJackGameService implements GameService {
     this.blackjackActionHandlingService = blackjackActionHandlingService;
   }
 
+  @WithSpan
   @Override
   public Game startNewGame() {
     log.info("Creating new game");
@@ -47,6 +49,7 @@ public class BlackJackGameService implements GameService {
     return gameMapper.mapInitialGame(blackJackGame);
   }
 
+  @WithSpan
   @Override
   public Game getGameById(String gameId) {
     log.info("Game-{} - getting game by id {}", gameId, gameId);
@@ -55,6 +58,7 @@ public class BlackJackGameService implements GameService {
         .orElseThrow(() -> new GameNotFoundException(gameId));
   }
 
+  @WithSpan
   @Override
   public Game performAction(String gameId, PlayerAction action) {
     log.debug("Game-{} - performing action {}", gameId, action.getAction());

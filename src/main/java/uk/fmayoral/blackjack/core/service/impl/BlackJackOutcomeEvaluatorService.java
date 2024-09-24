@@ -1,5 +1,6 @@
 package uk.fmayoral.blackjack.core.service.impl;
 
+import io.opentelemetry.instrumentation.annotations.WithSpan;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,7 @@ import static uk.fmayoral.blackjack.core.service.impl.BlackJackOutcomeEvaluatorS
 @Service
 public class BlackJackOutcomeEvaluatorService implements OutcomeEvaluatorService {
 
+  @WithSpan
   @Override
   public GameStatus determinePlayerHitOutcome(BlackJackGame game) {
     final int playerHandTotal = game.getPlayerHand().getTotal();
@@ -40,6 +42,7 @@ public class BlackJackOutcomeEvaluatorService implements OutcomeEvaluatorService
     return PLAYER_BUSTED.check(playerHandTotal, dealerHandTotal) ? DEALER_WINS : IN_PROGRESS;
   }
 
+  @WithSpan
   @Override
   public GameStatus determineFinalOutcome(BlackJackGame game) {
     int playerHand = game.getPlayerHand().getTotal();

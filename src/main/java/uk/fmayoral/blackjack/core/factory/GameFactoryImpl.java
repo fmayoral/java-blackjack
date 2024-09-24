@@ -1,5 +1,6 @@
 package uk.fmayoral.blackjack.core.factory;
 
+import io.opentelemetry.instrumentation.annotations.WithSpan;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,7 @@ public class GameFactoryImpl implements GameFactory {
     this.calculatorService = calculatorService;
   }
 
+  @WithSpan
   @Override
   public BlackJackGame createNewGame() {
     final String gameId = UUID.randomUUID().toString();

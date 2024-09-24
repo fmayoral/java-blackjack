@@ -1,5 +1,6 @@
 package uk.fmayoral.blackjack.core.service.impl;
 
+import io.opentelemetry.instrumentation.annotations.WithSpan;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import uk.fmayoral.blackjack.core.models.Card;
@@ -20,6 +21,8 @@ import static uk.fmayoral.blackjack.core.service.Constants.SOFT_17_THRESHOLD;
 @Slf4j
 @Service
 public class BlackJackCalculatorService implements CalculatorService {
+
+  @WithSpan
   @Override
   public int playerHandTotal(List<Card> hand) {
     log.trace("playerHandTotal invoked");
@@ -40,6 +43,7 @@ public class BlackJackCalculatorService implements CalculatorService {
     return total;
   }
 
+  @WithSpan
   @Override
   public int dealerHandTotal(List<Card> hand) {
     log.trace("dealerHandTotal invoked");

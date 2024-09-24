@@ -1,5 +1,6 @@
 package uk.fmayoral.blackjack.core.mapper;
 
+import io.opentelemetry.instrumentation.annotations.WithSpan;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import uk.fmayoral.blackjack.core.models.BlackJackGame;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 @Component
 public class BlackJackGameMapper implements GameMapper {
 
+  @WithSpan
   @Override
   public Game mapInitialGame(BlackJackGame blackJackGame) {
     log.trace("mapInitialGame invoked");
@@ -34,6 +36,7 @@ public class BlackJackGameMapper implements GameMapper {
     return game;
   }
 
+  @WithSpan
   @Override
   public Game map(BlackJackGame blackJackGame) {
     log.trace("map invoked");

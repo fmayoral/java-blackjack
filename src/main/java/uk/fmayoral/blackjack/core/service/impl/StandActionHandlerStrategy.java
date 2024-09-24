@@ -1,5 +1,6 @@
 package uk.fmayoral.blackjack.core.service.impl;
 
+import io.opentelemetry.instrumentation.annotations.WithSpan;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -32,6 +33,7 @@ public class StandActionHandlerStrategy implements ActionHandlerStrategy {
     this.evaluatorService = evaluatorService;
   }
 
+  @WithSpan
   @Override
   public BlackJackGame handleAction(BlackJackGame blackJackGame) {
     log.info("Game-{} - performing stand action", blackJackGame.getId());
